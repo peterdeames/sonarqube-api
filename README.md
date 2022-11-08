@@ -17,6 +17,18 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
+[![Bugs][bugs-badge]][sonar-url]
+[![Code Smells][codesmells-badge]][sonar-url]
+[![Code Coverage][coverage-badge]][sonar-url]
+[![Lines of Code][loc-badge]][sonar-url]
+[![Duplicated Lines][duplicatedlines-badge]][sonar-url]
+[![Vulnerabilities][vulnerabilities-badge]][sonar-url]
+
+[![Quality Gate Status][qualitygate-badge]][sonar-url]
+[![Maintainability Rating][maintainability-badge]][sonar-url]
+[![Reliability Rating][reliability-badge]][sonar-url]
+[![Security Rating][security-badge]][sonar-url]
+
 
 
 <!-- PROJECT LOGO -->
@@ -203,3 +215,16 @@ Project Link: [https://github.com/peterdeames/sonarqube-api](https://github.com/
 [product-screenshot]: images/screenshot.png
 [Python.org]: https://img.shields.io/badge/Python-0769AD?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://www.python.org
+
+[sonar-url]: https://sonarcloud.io/summary/new_code?id=peterdeames_sonarqube-api
+[bugs-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=bugs
+[codesmells-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=code_smells
+[coverage-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=coverage
+[loc-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=ncloc
+[duplicatedlines-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=duplicated_lines_density
+[vulnerabilities-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=vulnerabilities
+
+[qualitygate-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=alert_status
+[maintainability-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=sqale_rating
+[reliability-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=reliability_rating
+[security-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=security_rating
