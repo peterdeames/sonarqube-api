@@ -1,7 +1,7 @@
 # sonarqube-api
 
 <a name="readme-top"></a>
-
+<div align="center">
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -32,7 +32,6 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
   <a href="https://github.com/peterdeames/sonarqube-api">
     <img src="images/logo.png" alt="Logo">
   </a>
