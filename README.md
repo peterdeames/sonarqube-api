@@ -30,7 +30,6 @@
 [![Security Rating][security-badge]][sonar-url]
 
 
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
