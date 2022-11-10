@@ -20,7 +20,7 @@ pipeline {
           stages{
             stage('Pylint') {
               steps {
-                sh "pylint ."
+                sh "pylint sonarqube"
               }
             }
             stage('SonarQube analysis') {
