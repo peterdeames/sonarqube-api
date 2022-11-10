@@ -67,7 +67,6 @@ pipeline {
     }
     stage('Build'){
       steps{
-        sh "pip3 install -r requirements.txt"
         sh "${upload}"
       }
     }
