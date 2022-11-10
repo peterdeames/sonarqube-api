@@ -1,3 +1,5 @@
+String upload = BRANCH_NAME == 'develop' ? 'upload --repository testpypi dist/*' : ''
+
 pipeline {
   agent any
   options{
@@ -61,6 +63,12 @@ pipeline {
             }
           }
         }
+      }
+    }
+    stage('Build'){
+      steps{
+        sh 'pip3 install -r requirements.txt'
+        sh 'pip3 -m build'
       }
     }
   }
