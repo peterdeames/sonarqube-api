@@ -32,11 +32,7 @@
 
 <!-- PROJECT LOGO -->
 <br />
-  <a href="https://github.com/peterdeames/sonarqube-api">
-    <img src="images/logo.png" alt="Logo">
-  </a>
-
-<h3 align="center">SonarQube API</h3>
+<h2 align="center">SonarQube API</h2>
 
   <p align="center">
     API Calls to interact with SonarQube

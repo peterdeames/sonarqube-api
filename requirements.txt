@@ -1,4 +1,6 @@
 setuptools
 build
 wheel
+sphinx
+twine
 requests
