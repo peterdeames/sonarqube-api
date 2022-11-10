@@ -87,7 +87,6 @@ def get_license_details(url, token):
     arg2 : str
         token of account to setup the project
 
-
     Returns
     -------
     dict
@@ -95,13 +94,13 @@ def get_license_details(url, token):
 
     """
     current_version = __check_version(url, token)
+    metrics = {}
     if float(current_version.text[0:3]) <= 9.3:
         logging.warning(
             "Current installation of SonarQube is < 9.3. "
             "This function is only available with version >= 9.3"
         )
     else:
-        metrics = {}
         urltopost = url + "/api/monitoring/metrics"
         response = requests.get(urltopost, auth=(token, ""), timeout=30)
         for item in response.text.split("\n"):
@@ -117,4 +116,4 @@ def get_license_details(url, token):
                 value = item.split()
                 metrics["expiration_days"] = value[1]
                 logging.info("%s days before license expires", value[1])
-        return metrics
+    return metrics
