@@ -59,10 +59,6 @@ def setup_project(url, token, names):
         token of account to setup the project
     arg3 : str
         comma seperated string of project names
-    Returns
-    -------
-    bool
-        boolean value if the item exists or not
 
     """
     projectlist = names.split(",")
@@ -106,10 +102,8 @@ def delete_project(url, token, names, dryrun=True):
         token of account to setup the project
     arg3 : str
         comma seperated string of project names
-    Returns
-    -------
-    bool
-        boolean value if the item exists or not
+    arg4 : bool
+        True or False flag whether to delete project or not
 
     """
     projectlist = names.split(",")
