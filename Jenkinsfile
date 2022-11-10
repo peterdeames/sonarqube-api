@@ -1,4 +1,4 @@
-String upload = BRANCH_NAME == 'develop' ? 'upload --repository testpypi dist/*' : ''
+String upload = BRANCH_NAME == 'develop' ? 'python3 -m twine upload --repository testpypi dist/*' : 'python3 -m build'
 
 pipeline {
   agent any
@@ -68,7 +68,7 @@ pipeline {
     stage('Build'){
       steps{
         sh 'pip3 install -r requirements.txt'
-        sh 'pip3 -m build'
+        sh '${upload}'
       }
     }
   }
