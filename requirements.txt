@@ -4,4 +4,5 @@ wheel
 sphinx
 twine
 requests
-python
+pylint
+bandit
