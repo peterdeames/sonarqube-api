@@ -1,4 +1,4 @@
-String upload = BRANCH_NAME == 'develop' ? 'python3 -m twine upload --repository testpypi dist/*' : 'python3 -m build'
+String upload = BRANCH_NAME == 'main' ? 'python3 -m twine upload --repository pypi dist/*' : 'python3 -m twine upload --repository testpypi dist/*'
 
 pipeline {
   agent any
@@ -73,6 +73,14 @@ pipeline {
       }
     }
     stage('Build'){
+      steps{
+        sh 'python3 -m build'
+      }
+    }
+    stage('Publish'){
+      when {
+        expression { BRANCH_NAME ==~ /(main|develop)/ }
+      }
       steps{
         sh "${upload}"
       }
