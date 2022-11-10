@@ -25,6 +25,11 @@ def get_version(url, token):
     arg2 : str
         token of account to setup the project
 
+    Returns
+    -------
+    str
+        current verion of SonarQube
+
     """
     upgrades_available = False
     urltopost = url + "/api/server/version"
@@ -61,3 +66,43 @@ def get_version(url, token):
                 )
     else:
         logging.error("Failed to get version")
+    return current_version.text
+
+
+def get_license_details(url, token):
+    """
+    Function to get system metrics (expects SonarQube verson 9.3 +)
+
+    This function is intented to get the system metrcis of SonarQube
+
+    Parameters
+    ----------
+    arg1 : str
+        base URL of SonarQube
+    arg2 : str
+        token of account to setup the project
+
+
+    Returns
+    -------
+    dict
+        dictionary of metrics
+
+    """
+    metrics = {}
+    urltopost = url + "/api/monitoring/metrics"
+    response = requests.get(urltopost, auth=(token, ""), timeout=30)
+    for item in response.text.split("\n"):
+        if item.startswith("sonarqube_license_number_of_lines_remaining_total"):
+            value = item.split()
+            metrics["remaining_loc"] = value[1]
+            logging.info('%s lines of code left before license limit', value[1])
+        if item.startswith("sonarqube_license_number_of_lines_analyzed_total"):
+            value = item.split()
+            metrics["used_loc"] = value[1]
+            logging.info('%s lines of code analysed', value[1])
+        if item.startswith("sonarqube_license_days_before_expiration_total"):
+            value = item.split()
+            metrics["expiration_days"] = value[1]
+            logging.info('%s days before license expires', value[1])
+    return metrics
