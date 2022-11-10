@@ -5,4 +5,3 @@ sphinx
 twine
 requests
 python
-bandit
