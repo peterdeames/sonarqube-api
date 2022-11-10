@@ -12,6 +12,7 @@ pipeline {
     stage('Setup'){
       steps {
         sh 'pip3 install -r requirements.txt'
+        sh 'python3 -m pip install pylint'
       }
     }
     stage('Testing'){
