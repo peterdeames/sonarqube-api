@@ -11,6 +11,7 @@ pipeline {
   stages {
     stage('Setup'){
       steps {
+        sh 'python3 -m pip install --upgrade pip'
         sh 'pip3 install -r requirements.txt'
       }
     }
@@ -18,12 +19,18 @@ pipeline {
       parallel{
         stage('Quality Testing'){
           stages{
+            stage('Pylint') {
+              steps {
+                echo 'Run Linter'
+                // sh "pylint sonarqube"
+              }
+            }
             stage('SonarQube analysis') {
               steps {
                 script {
                   def scannerHome = tool 'SonarScanner';
                   withSonarQubeEnv('SonarCloud') {
-                    sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.organization=peterdeames -Dsonar.projectKey=peterdeames_sonarqube-api -Dsonar.sources=. -Dsonar.branch.name='${env.BRANCH_NAME}' -Dsonar.projectVersion='${BUILD_NUMBER}' -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.version=3.8 -Dsonar.scm.provider=git"
+                    sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.organization=peterdeames -Dsonar.projectKey=peterdeames_sonarqube-client -Dsonar.sources=. -Dsonar.branch.name='${env.BRANCH_NAME}' -Dsonar.projectVersion='${BUILD_NUMBER}' -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.version=3.8 -Dsonar.scm.provider=git"
                   }
                 }
               }
@@ -67,8 +74,7 @@ pipeline {
     }
     stage('Build'){
       steps{
-        sh 'pip3 install -r requirements.txt'
-        sh '${upload}'
+        sh "${upload}"
       }
     }
   }

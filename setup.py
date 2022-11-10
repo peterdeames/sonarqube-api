@@ -9,7 +9,7 @@ with open('README.MD', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name='sonarqube-client',
-    version='0.0.2',
+    version='0.0.3',
     description='Package that creates simple APIs to interact with SonarQube',
     packages=setuptools.find_packages(),
     url='https://github.com/peterdeames/sonarqube-api',

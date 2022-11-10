@@ -4,3 +4,5 @@ wheel
 sphinx
 twine
 requests
+pylint
+bandit
