@@ -11,28 +11,7 @@ logging.basicConfig(
 )
 
 
-def _check_setup(cresponse, item, rlist):
-    """
-    Function to check existance of item.
-
-    This function is intented to allow for the checking of the existance of a
-    specific item in SonarQube such as if a project exists before craeting it
-
-    Parameters
-    ----------
-    arg1 : str
-        response to parse
-    arg2 : str
-        name of the item to check for
-    arg3 : str
-        list within the reposnse to parse
-
-    Returns
-    -------
-    bool
-        boolean value if the item exists or not
-
-    """
+def __check_setup(cresponse, item, rlist):
     check_flag = False
     json_object = json.loads(cresponse.text)
     try:
@@ -68,7 +47,7 @@ def setup_project(url, token, names):
         response = requests.get(
             urltopost + "?projects=" + project_name, auth=(token, ""), timeout=30
         )
-        check_flag = _check_setup(response, project_name, "components")
+        check_flag = __check_setup(response, project_name, "components")
         if check_flag:
             logging.info("%s already exists!", project_name)
         else:
@@ -113,7 +92,7 @@ def delete_project(url, token, names, dryrun=True):
         response = requests.get(
             urltopost + "?projects=" + project_name, auth=(token, ""), timeout=30
         )
-        check_flag = _check_setup(response, project_name, "components")
+        check_flag = __check_setup(response, project_name, "components")
         if not check_flag:
             logging.info("%s does not exist!", project_name)
         else:

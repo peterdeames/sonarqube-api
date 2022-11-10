@@ -11,6 +11,12 @@ logging.basicConfig(
 )
 
 
+def __check_version(url, token):
+    urltopost = url + "/api/server/version"
+    current_version = requests.get(urltopost, auth=(token, ""), timeout=30)
+    return current_version
+
+
 def get_version(url, token):
     """
     Function to get current version.
@@ -32,8 +38,7 @@ def get_version(url, token):
 
     """
     upgrades_available = False
-    urltopost = url + "/api/server/version"
-    current_version = requests.get(urltopost, auth=(token, ""), timeout=30)
+    current_version = __check_version(url, token)
     urltopost = url + "/api/system/upgrades"
     upgradecheck = requests.get(urltopost, auth=(token, ""), timeout=30)
     json_object = json.loads(upgradecheck.text)
@@ -89,20 +94,27 @@ def get_license_details(url, token):
         dictionary of metrics
 
     """
-    metrics = {}
-    urltopost = url + "/api/monitoring/metrics"
-    response = requests.get(urltopost, auth=(token, ""), timeout=30)
-    for item in response.text.split("\n"):
-        if item.startswith("sonarqube_license_number_of_lines_remaining_total"):
-            value = item.split()
-            metrics["remaining_loc"] = value[1]
-            logging.info('%s lines of code left before license limit', value[1])
-        if item.startswith("sonarqube_license_number_of_lines_analyzed_total"):
-            value = item.split()
-            metrics["used_loc"] = value[1]
-            logging.info('%s lines of code analysed', value[1])
-        if item.startswith("sonarqube_license_days_before_expiration_total"):
-            value = item.split()
-            metrics["expiration_days"] = value[1]
-            logging.info('%s days before license expires', value[1])
-    return metrics
+    current_version = __check_version(url, token)
+    if float(current_version.text[0:3]) <= 9.3:
+        logging.warning(
+            "Current installation of SonarQube is < 9.3. "
+            "This function is only available with version >= 9.3"
+        )
+    else:
+        metrics = {}
+        urltopost = url + "/api/monitoring/metrics"
+        response = requests.get(urltopost, auth=(token, ""), timeout=30)
+        for item in response.text.split("\n"):
+            if item.startswith("sonarqube_license_number_of_lines_remaining_total"):
+                value = item.split()
+                metrics["remaining_loc"] = value[1]
+                logging.info("%s lines of code left before license limit", value[1])
+            if item.startswith("sonarqube_license_number_of_lines_analyzed_total"):
+                value = item.split()
+                metrics["used_loc"] = value[1]
+                logging.info("%s lines of code analysed", value[1])
+            if item.startswith("sonarqube_license_days_before_expiration_total"):
+                value = item.split()
+                metrics["expiration_days"] = value[1]
+                logging.info("%s days before license expires", value[1])
+        return metrics
