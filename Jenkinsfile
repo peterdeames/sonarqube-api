@@ -26,7 +26,7 @@ pipeline {
             }
             stage('SonarQube analysis') {
               steps {
-                sh "pylint sonarqube"
+                sh 'pylint sonarqube'
               }
             }
             stage('Quality gate') {
