@@ -17,6 +17,14 @@ def __check_version(url, token):
     return current_version
 
 
+def ping(url, token):
+    """ simple ping """
+    urltopost = url + "/api/system/ping"
+    response = requests.get(urltopost, auth=(token, ""), timeout=30)
+    logging.info('%s', response)
+    return response.text
+
+
 def get_version(url, token):
     """
     Function to get current version.
