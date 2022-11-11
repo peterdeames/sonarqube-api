@@ -21,9 +21,7 @@ pipeline {
           stages{
             stage('Unit Tests') {
               steps {
-                script {
-                  sh "nose2 --verbosity=2"
-                }
+                sh 'nose2 --verbosity=2'
               }
             }
             stage('SonarQube analysis') {
