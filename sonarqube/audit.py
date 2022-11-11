@@ -17,6 +17,22 @@ def __check_version(url, token):
     return current_version
 
 
+def get_health(url, token):
+    """
+    Function to return the health of SonarQube
+    """
+    urltopost = url + "/api/system/health"
+    response = requests.get(urltopost, auth=(token, ""), timeout=30)
+    json_object = json.loads(response.text)
+    health = json_object['health']
+    if health == 'GREEN':
+        logging.info('Your SonarQube health is currently: %s',health)
+    else:
+        logging.error('Your SonarQube health is currently: %s '
+        'You should review the cause and remediate the issue ASAP',health)
+    return response.text
+
+
 def get_version(url, token):
     """
     Function to get current version.
