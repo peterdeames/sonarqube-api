@@ -21,7 +21,12 @@ pipeline {
           stages{
             stage('Unit Tests') {
               steps {
-                sh 'nose2 --verbosity=2'
+                sh 'coverage run --source=sonarqube  -m nose2 --verbosity=2'
+              }
+            }
+            stage('Coverage') {
+              steps {
+                sh 'coverage report'
               }
             }
             stage('SonarQube analysis') {

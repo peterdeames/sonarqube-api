@@ -21,7 +21,7 @@ def ping(url, token):
     """ simple ping """
     urltopost = url + "/api/system/ping"
     response = requests.get(urltopost, auth=(token, ""), timeout=30)
-    logging.info('%s', response)
+    logging.info('%s', response.text)
     return response.text
 
 
