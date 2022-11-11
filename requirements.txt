@@ -6,3 +6,4 @@ twine
 requests
 pylint
 bandit
+nose

@@ -19,10 +19,9 @@ pipeline {
       parallel{
         stage('Quality Testing'){
           stages{
-            stage('Pylint') {
+            stage('Unit Tests') {
               steps {
-                echo 'Run Linter'
-                // sh "pylint sonarqube"
+                sh "nose2 --verbosity=2"
               }
             }
             stage('SonarQube analysis') {
