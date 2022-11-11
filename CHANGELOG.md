@@ -1,6 +1,11 @@
 # Changelog
 
-## v0.0.2
+## v0.0.4
+
+### Changed
+- added error handing to LTS check for versions of API without LTS field
+
+## v0.0.3
 
 ### Added
 - Added get version
