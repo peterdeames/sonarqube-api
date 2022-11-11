@@ -41,8 +41,8 @@ def get_version(url, token):
     current_version = __check_version(url, token)
     urltopost = url + "/api/system/upgrades"
     upgradecheck = requests.get(urltopost, auth=(token, ""), timeout=30)
+    json_object = json.loads(upgradecheck.text)
     try:
-        json_object = json.loads(upgradecheck.text)
         lts = json_object["latestLTS"]
     except KeyError:
         lts = '9999999'
