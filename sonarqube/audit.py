@@ -41,13 +41,16 @@ def get_version(url, token):
     current_version = __check_version(url, token)
     urltopost = url + "/api/system/upgrades"
     upgradecheck = requests.get(urltopost, auth=(token, ""), timeout=30)
-    json_object = json.loads(upgradecheck.text)
-    lts = json_object["latestLTS"]
+    try:
+        json_object = json.loads(upgradecheck.text)
+        lts = json_object["latestLTS"]
+    except KeyError:
+        lts = 9999999
     if current_version.ok:
         tmp_version = current_version.text[0:3]
         if len(json_object["upgrades"]) > 0:
             upgrades_available = True
-        if float(lts) > float(tmp_version):
+        if float(lts) > float(tmp_version) and lts < 1000:
             logging.warning(
                 "You are running a version of SonarQube that is behind the LTS"
                 ": %s.\nYou should consider upgrading to %s LTS",
