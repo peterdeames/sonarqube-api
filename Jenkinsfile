@@ -22,7 +22,8 @@ pipeline {
             stage('Pylint') {
               steps {
                 echo 'Run Linter'
-                // sh "pylint sonarqube"
+                sh '''#!/bin/sh
+                      pylint sonarqube'''
               }
             }
             stage('SonarQube analysis') {
