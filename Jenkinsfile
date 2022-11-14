@@ -27,7 +27,8 @@ pipeline {
             }
             stage('Coverage') {
               steps {
-                sh 'python3 -m coverage report -m xml'
+                sh 'python3 -m coverage xml'
+                sh 'python3 -m coverage report -m'
               }
             }
             stage('SonarQube analysis') {
