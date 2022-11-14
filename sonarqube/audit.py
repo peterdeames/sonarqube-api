@@ -24,12 +24,15 @@ def get_health(url, token):
     urltopost = url + "/api/system/health"
     response = requests.get(urltopost, auth=(token, ""), timeout=30)
     json_object = json.loads(response.text)
-    health = json_object['health']
-    if health == 'GREEN':
-        logging.info('Your SonarQube health is currently: %s',health)
+    health = json_object["health"]
+    if health == "GREEN":
+        logging.info("Your SonarQube health is currently: %s", health)
     else:
-        logging.error('Your SonarQube health is currently: %s '
-        'You should review the cause and remediate the issue ASAP',health)
+        logging.error(
+            "Your SonarQube health is currently: %s "
+            "You should review the cause and remediate the issue ASAP",
+            health,
+        )
     return response.text
 
 
@@ -61,7 +64,7 @@ def get_version(url, token):
     try:
         lts = json_object["latestLTS"]
     except KeyError:
-        lts = '9999999'
+        lts = "9999999"
     if current_version.ok:
         tmp_version = current_version.text[0:3]
         if len(json_object["upgrades"]) > 0:
@@ -136,3 +139,27 @@ def get_license_details(url, token):
                 metrics["expiration_days"] = value[1]
                 logging.info("%s days before license expires", value[1])
     return metrics
+
+
+def get_languages(url, token):
+    """
+    Function to get languages supported by SonarQube
+
+    This function is intented to get the system supported languages
+
+    Parameters
+    ----------
+    arg1 : str
+        base URL of SonarQube
+    arg2 : str
+        token of account to setup the project
+
+    Returns
+    -------
+    list
+        list of language names
+
+    """
+    urltopost = url + "/api/languages/list"
+    response = requests.get(urltopost, auth=(token, ""), timeout=30)
+    print(response.text)
