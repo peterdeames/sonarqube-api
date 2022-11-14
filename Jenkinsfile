@@ -13,7 +13,6 @@ pipeline {
       steps {
         sh 'python3 -m pip install --upgrade pip'
         sh 'pip3 install -r requirements.txt'
-        sh 'pip3 freeze'
       }
     }
     stage('Testing'){
@@ -36,7 +35,7 @@ pipeline {
                 script {
                   def scannerHome = tool 'SonarScanner';
                   withSonarQubeEnv('SonarCloud') {
-                    sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.organization=peterdeames -Dsonar.projectKey=peterdeames_sonarqube-client -Dsonar.sources=. -Dsonar.branch.name='${env.BRANCH_NAME}' -Dsonar.projectVersion='${BUILD_NUMBER}' -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.version=3.8 -Dsonar.scm.provider=git -Dsonar.python.coverage.reportPaths=coverage.xml"
+                    sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.organization=peterdeames -Dsonar.projectKey=peterdeames_sonarqube-client -Dsonar.sources=. -Dsonar.branch.name='${env.BRANCH_NAME}' -Dsonar.projectVersion='${BUILD_NUMBER}' -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.version=3.8 -Dsonar.scm.provider=git -Dsonar.python.coverage.reportPaths=coverage.xml -D-Dsonar.python.bandit.reportPaths=bandit_report.xml"
                   }
                 }
               }
