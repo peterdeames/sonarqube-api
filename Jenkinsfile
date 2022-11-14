@@ -22,7 +22,7 @@ pipeline {
           stages{
             stage('Unit Tests') {
               steps {
-                sh 'python -m coverage run --source=sonarqube  -m nose2 --verbosity=2'
+                sh 'python3 -m coverage run --source=sonarqube  -m nose2 --verbosity=2'
               }
             }
             stage('Coverage') {
