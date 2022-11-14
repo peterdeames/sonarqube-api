@@ -63,7 +63,7 @@ pipeline {
             stage('Bandit'){
               steps{
                 echo 'Run Security Tests'
-                sh 'python3 -m bandit -r -f html -o bandit_report.html .'
+                sh 'python3 -m bandit -r -f xml -o bandit_report.xml .'
                 /* snykSecurity (
                   organisation: 'peterdeames',
                   projectName: 'dronedemo',
