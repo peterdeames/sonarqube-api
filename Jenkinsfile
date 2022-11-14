@@ -27,7 +27,7 @@ pipeline {
             }
             stage('Coverage') {
               steps {
-                sh 'coverage report'
+                sh 'python3 -m coverage report'
               }
             }
             stage('SonarQube analysis') {
@@ -62,7 +62,7 @@ pipeline {
             stage('Bandit'){
               steps{
                 echo 'Run Security Tests'
-                //sh 'bandit -r -f html -o bandit_report.html .'
+                sh 'python3 -m bandit -r -f html -o bandit_report.html .'
                 /* snykSecurity (
                   organisation: 'peterdeames',
                   projectName: 'dronedemo',
