@@ -21,7 +21,7 @@ pipeline {
           stages{
             stage('Pylint') {
               steps {
-                sh 'python3 -m pylint --fail-under=8'
+                sh 'python3 -m pylint --fail-under 8'
               }
             }
             stage('Unit Tests') {
