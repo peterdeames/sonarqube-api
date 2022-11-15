@@ -27,10 +27,6 @@ pipeline {
             stage('Unit Tests') {
               steps {
                 sh 'python3 -m coverage run --source=sonarqube  -m nose2 --verbosity=2'
-              }
-            }
-            stage('Coverage') {
-              steps {
                 sh 'python3 -m coverage xml'
                 sh 'python3 -m coverage report -m'
               }
