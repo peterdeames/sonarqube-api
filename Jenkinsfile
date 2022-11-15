@@ -19,6 +19,11 @@ pipeline {
       parallel{
         stage('Quality Testing'){
           stages{
+            stage('Pylint') {
+              steps {
+                sh 'python3 -m pylint --fail-under=8'
+              }
+            }
             stage('Unit Tests') {
               steps {
                 sh 'python3 -m coverage run --source=sonarqube  -m nose2 --verbosity=2'
