@@ -37,6 +37,14 @@ def get_health(url, token):
     return response.text
 
 
+def ping(url, token):
+    """ simple ping """
+    urltopost = url + "/api/system/ping"
+    response = requests.get(urltopost, auth=(token, ""), timeout=30)
+    logging.info('%s', response.text)
+    return response.text
+
+
 def get_version(url, token):
     """
     Function to get current version.
