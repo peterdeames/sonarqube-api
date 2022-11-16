@@ -2,7 +2,7 @@
 import unittest
 from unittest.mock import patch, Mock
 
-from nose.tools import assert_equals, assert_not_equal
+from nose.tools import assert_equals
 from sonarqube import audit
 
 
@@ -31,14 +31,14 @@ def test_get_health_green(mock_get):
 def test_get_health_yellow(mock_get):
     mock_get.return_value.text = '{"health":"YELLOW","causes":[]}'
     response = audit.get_health('URL', 'TOKEN')
-    assert_not_equal(response, '{"health":"GREEN","causes":[]}')
+    assert_equals(response, '{"health":"YELLOW","causes":[]}')
 
 
 @patch('sonarqube.audit.requests.get')
 def test_get_health_red(mock_get):
     mock_get.return_value.text = '{"health":"RED","causes":[]}'
     response = audit.get_health('URL', 'TOKEN')
-    assert_not_equal(response, '{"health":"GREEN","causes":[]}')
+    assert_equals(response, '{"health":"RED","causes":[]}')
 
 
 """ @patch('sonarqube.audit.requests.get')
