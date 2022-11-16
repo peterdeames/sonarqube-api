@@ -11,7 +11,13 @@ def test_ping(mock_get):
     mock_get.return_value.text = 'pong'
     response = audit.ping('URL', 'TOKEN')
     assert_equals(response, 'pong')
-# {"health":"GREEN","causes":[]}
+
+
+@patch('sonarqube.audit.requests.get')
+def test_get_health(mock_get):
+    mock_get.return_value.text = '{"health":"GREEN","causes":[]}'
+    response = audit.ping('URL', 'TOKEN')
+    assert_equals(response, '{"health":"GREEN","causes":[]}')
 
 
 """ @patch('sonarqube.audit.requests.get')
