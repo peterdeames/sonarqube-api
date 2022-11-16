@@ -14,6 +14,7 @@ logging.basicConfig(
 def __check_version(url, token):
     urltopost = url + "/api/server/version"
     current_version = requests.get(urltopost, auth=(token, ""), timeout=30)
+    print(current_version)
     return current_version
 
 
@@ -49,13 +50,16 @@ def get_version(url, token):
     current_version = __check_version(url, token)
     urltopost = url + "/api/system/upgrades"
     upgradecheck = requests.get(urltopost, auth=(token, ""), timeout=30)
+    print(upgradecheck)
     json_object = json.loads(upgradecheck.text)
     try:
         lts = json_object["latestLTS"]
     except KeyError:
         lts = '9999999'
+    print(lts)
     if current_version.ok:
         tmp_version = current_version.text[0:3]
+        print(tmp_version)
         if len(json_object["upgrades"]) > 0:
             upgrades_available = True
         if float(lts) > float(tmp_version) and float(lts) < 1000:
