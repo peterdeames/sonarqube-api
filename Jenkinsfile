@@ -21,8 +21,14 @@ pipeline {
           stages{
             stage('Pylint') {
               steps {
-                echo 'Run Linter'
-                // sh "pylint sonarqube"
+                sh 'python3 -m pylint sonarqube --fail-under=8.0'
+              }
+            }
+            stage('Unit Tests') {
+              steps {
+                sh 'python3 -m coverage run --source=sonarqube  -m nose2 --verbosity=2'
+                sh 'python3 -m coverage xml'
+                sh 'python3 -m coverage report -m'
               }
             }
             stage('SonarQube analysis') {
@@ -30,7 +36,7 @@ pipeline {
                 script {
                   def scannerHome = tool 'SonarScanner';
                   withSonarQubeEnv('SonarCloud') {
-                    sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.organization=peterdeames -Dsonar.projectKey=peterdeames_sonarqube-client -Dsonar.sources=. -Dsonar.branch.name='${env.BRANCH_NAME}' -Dsonar.projectVersion='${BUILD_NUMBER}' -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.version=3.8 -Dsonar.scm.provider=git"
+                    sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.organization=peterdeames -Dsonar.projectKey=peterdeames_sonarqube-client -Dsonar.sources=. -Dsonar.branch.name='${env.BRANCH_NAME}' -Dsonar.projectVersion='${BUILD_NUMBER}' -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.version=3.8 -Dsonar.scm.provider=git -Dsonar.python.coverage.reportPaths=coverage.xml -D-Dsonar.python.bandit.reportPaths=bandit_report.xml"
                   }
                 }
               }
@@ -57,7 +63,7 @@ pipeline {
             stage('Bandit'){
               steps{
                 echo 'Run Security Tests'
-                //sh 'bandit -r -f html -o bandit_report.html .'
+                sh 'python3 -m bandit -r -f xml -o bandit_report.xml .'
                 /* snykSecurity (
                   organisation: 'peterdeames',
                   projectName: 'dronedemo',
