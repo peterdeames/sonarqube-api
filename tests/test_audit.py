@@ -7,6 +7,13 @@ from sonarqube import audit
 
 
 @patch('sonarqube.audit.requests.get')
+def test__check_version(mock_get):
+    mock_get.return_value = '9.7.1.62043'
+    response = audit.__check_version('URL', 'TOKEN')
+    assert_equals(response, '9.7.1.62043')
+
+
+@patch('sonarqube.audit.requests.get')
 def test_ping(mock_get):
     mock_get.return_value.text = 'pong'
     response = audit.ping('URL', 'TOKEN')
