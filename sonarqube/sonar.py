@@ -3,6 +3,7 @@
 import json
 import logging
 import requests
+from tabulate import tabulate
 
 # The different levels of logging, from highest urgency to lowest urgency, are:
 # CRITICAL | ERROR | WARNING | INFO | DEBUG
@@ -40,8 +41,10 @@ def setup_project(url, token, names):
         comma seperated string of project names
 
     """
+    data = []
     projectlist = names.split(",")
     for project in projectlist:
+        project_lst = [project]
         urltopost = url + "/api/projects/search"
         project_name = project.lower().strip()
         response = requests.get(
@@ -49,7 +52,7 @@ def setup_project(url, token, names):
         )
         check_flag = __check_setup(response, project_name, "components")
         if check_flag:
-            logging.info("%s already exists!", project_name)
+            project_lst.append('Already Exists')
         else:
             urltopost = url + "/api/projects/create"
             response = requests.post(
@@ -62,9 +65,18 @@ def setup_project(url, token, names):
                 timeout=30,
             )
             if response.ok:
-                logging.info("%s setup successfully!", project_name)
+                project_lst.append('Setup Successful')
+                project_lst.append(response.reason)
             else:
-                logging.error("%s not setup", project_name)
+                project_lst.append('Setup Failed')
+                error = response.json()
+                error = error['errors']
+                for msg in error:
+                    project_lst.append(msg['msg'])
+        data.append(project_lst)
+    print()
+    print (tabulate(data, headers=["Project", "Status", "Response"]))
+    print()
 
 
 def delete_project(url, token, names, dryrun=True):
@@ -85,8 +97,10 @@ def delete_project(url, token, names, dryrun=True):
         True or False flag whether to delete project or not
 
     """
+    data = []
     projectlist = names.split(",")
     for project in projectlist:
+        project_lst = [project]
         urltopost = url + "/api/projects/search"
         project_name = project.lower().strip()
         response = requests.get(
@@ -94,7 +108,9 @@ def delete_project(url, token, names, dryrun=True):
         )
         check_flag = __check_setup(response, project_name, "components")
         if not check_flag:
-            logging.info("%s does not exist!", project_name)
+            #logging.info("%s does not exist!", project_name)
+            project_lst.append('')
+            project_lst.append('Does not Exist')
         else:
             if dryrun:
                 logging.warning("This request would delete %s", project_name)
@@ -103,6 +119,7 @@ def delete_project(url, token, names, dryrun=True):
                     "please re-run with dryrun set to False"
                 )
             else:
+                project_lst.append('FALSE')
                 urltopost = url + "/api/projects/delete"
                 response = requests.post(
                     urltopost
@@ -114,6 +131,17 @@ def delete_project(url, token, names, dryrun=True):
                     timeout=30,
                 )
                 if response.ok:
-                    logging.info("%s deleted successfully!", project_name)
+                    project_lst.append('Deleted Successfully')
+                    project_lst.append(response.reason)
                 else:
-                    logging.error("%s not deleted", project_name)
+                    project_lst.append('Setup Failed')
+                    error = response.json()
+                    error = error['errors']
+                    for msg in error:
+                        project_lst.append(msg['msg'])
+        data.append(project_lst)
+    if not dryrun:
+        print()
+        print (tabulate(data, headers=["Project", "Dry Run", "Status", "Response"]))
+        print()
+

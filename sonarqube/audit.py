@@ -1,8 +1,8 @@
 """ functions to help audit SonarQube """
 
-import json
 import logging
 import requests
+from tabulate import tabulate
 
 # The different levels of logging, from highest urgency to lowest urgency, are:
 # CRITICAL | ERROR | WARNING | INFO | DEBUG
@@ -14,7 +14,6 @@ logging.basicConfig(
 def __check_version(url, token):
     urltopost = url + "/api/server/version"
     current_version = requests.get(urltopost, auth=(token, ""), timeout=30)
-    print(current_version)
     return current_version
 
 
@@ -24,8 +23,8 @@ def get_health(url, token):
     """
     urltopost = url + "/api/system/health"
     response = requests.get(urltopost, auth=(token, ""), timeout=30)
-    json_object = json.loads(response.text)
-    health = json_object["health"]
+    health = response.json()
+    health = health['health']
     if health == "GREEN":
         logging.info("Your SonarQube health is currently: %s", health)
     else:
@@ -68,17 +67,15 @@ def get_version(url, token):
     upgrades_available = False
     current_version = __check_version(url, token)
     urltopost = url + "/api/system/upgrades"
-    upgradecheck = requests.get(urltopost, auth=(token, ""), timeout=30)
-    print(upgradecheck)
-    json_object = json.loads(upgradecheck.text)
+    response = requests.get(urltopost, auth=(token, ""), timeout=30)
+    upgradecheck = response.json()
     try:
-        lts = json_object["latestLTS"]
+        lts = upgradecheck["latestLTS"]
     except KeyError:
         lts = "9999999"
     if current_version.ok:
         tmp_version = current_version.text[0:3]
-        print(tmp_version)
-        if len(json_object["upgrades"]) > 0:
+        if len(upgradecheck["upgrades"]) > 0:
             upgrades_available = True
         if float(lts) > float(tmp_version) and float(lts) < 1000:
             logging.warning(
@@ -94,13 +91,13 @@ def get_version(url, token):
             )
             if upgrades_available:
                 logging.info(
-                    "There are %d upgrades available", len(json_object["upgrades"])
+                    "There are %d upgrades available", len(upgradecheck["upgrades"])
                 )
         else:
             logging.info("You are currently running version: %s", current_version.text)
             if upgrades_available:
                 logging.info(
-                    "There are %d upgrades available", len(json_object["upgrades"])
+                    "There are %d upgrades available", len(upgradecheck["upgrades"])
                 )
     else:
         logging.error("Failed to get version")
@@ -171,6 +168,53 @@ def get_languages(url, token):
         list of language names
 
     """
+    data = []
     urltopost = url + "/api/languages/list"
     response = requests.get(urltopost, auth=(token, ""), timeout=30)
-    print(response.text)
+    languages = response.json()
+    languages = languages['languages']
+    for language in languages:
+        language_lst=[]
+        language_lst.append(language['key'])
+        language_lst.append(language['name'])
+        data.append(language_lst)
+    print()
+    print (tabulate(data, headers=["Key", "Name"]))
+    print()
+    return data
+
+
+def get_installed_plugins(url, token):
+    """
+    Function to get languages supported by SonarQube
+
+    This function is intented to get the system supported languages
+
+    Parameters
+    ----------
+    arg1 : str
+        base URL of SonarQube
+    arg2 : str
+        token of account to setup the project
+
+    Returns
+    -------
+    list
+        list of language names
+
+    """
+    data = []
+    urltopost = url + "/api/plugins/installed"
+    response = requests.get(urltopost, auth=(token, ""), timeout=30)
+    plugins = response.json()
+    plugins = plugins['plugins']
+    for plugin in plugins:
+        plugin_lst=[]
+        plugin_lst.append(plugin['name'])
+        plugin_lst.append(plugin['description'])
+        plugin_lst.append(plugin['version'])
+        data.append(plugin_lst)
+    print()
+    print (tabulate(data, headers=["Name", "Description", "Version"]))
+    print()
+    return data
