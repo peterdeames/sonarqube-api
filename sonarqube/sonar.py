@@ -144,4 +144,3 @@ def delete_project(url, token, names, dryrun=True):
         print()
         print (tabulate(data, headers=["Project", "Dry Run", "Status", "Response"]))
         print()
-

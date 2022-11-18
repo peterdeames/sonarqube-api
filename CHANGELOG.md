@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.0.5
+
+### Changed
+- added auditing reports in tables not logging outputs
+
 ## v0.0.4
 
 ### Changed
