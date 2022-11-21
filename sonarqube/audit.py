@@ -24,7 +24,8 @@ def get_health(url, token):
     urltopost = url + "/api/system/health"
     response = requests.get(urltopost, auth=(token, ""), timeout=30)
     health = response.json()
-    health = health['health']
+    # print(health)
+    health = health["health"]
     if health == "GREEN":
         logging.info("Your SonarQube health is currently: %s", health)
     else:
@@ -37,10 +38,10 @@ def get_health(url, token):
 
 
 def ping(url, token):
-    """ simple ping """
+    """simple ping"""
     urltopost = url + "/api/system/ping"
     response = requests.get(urltopost, auth=(token, ""), timeout=30)
-    logging.info('%s', response.text)
+    logging.info("%s", response.text)
     return response.text
 
 
@@ -123,6 +124,7 @@ def get_license_details(url, token):
         dictionary of metrics
 
     """
+    data = []
     current_version = __check_version(url, token)
     metrics = {}
     if float(current_version.text[0:3]) <= 9.3:
@@ -134,18 +136,28 @@ def get_license_details(url, token):
         urltopost = url + "/api/monitoring/metrics"
         response = requests.get(urltopost, auth=(token, ""), timeout=30)
         for item in response.text.split("\n"):
+            license_lst = []
             if item.startswith("sonarqube_license_number_of_lines_remaining_total"):
                 value = item.split()
                 metrics["remaining_loc"] = value[1]
-                logging.info("%s lines of code left before license limit", value[1])
+                license_lst.append("Lines of Code Remaining")
+                license_lst.append(value[1])
+                data.append(license_lst)
             if item.startswith("sonarqube_license_number_of_lines_analyzed_total"):
                 value = item.split()
                 metrics["used_loc"] = value[1]
-                logging.info("%s lines of code analysed", value[1])
+                license_lst.append("Lines of Code Used")
+                license_lst.append(value[1])
+                data.append(license_lst)
             if item.startswith("sonarqube_license_days_before_expiration_total"):
                 value = item.split()
                 metrics["expiration_days"] = value[1]
-                logging.info("%s days before license expires", value[1])
+                license_lst.append("License Expires")
+                license_lst.append(value[1] + " days")
+                data.append(license_lst)
+    print()
+    print(tabulate(data, headers=["Detail", "Value"]))
+    print()
     return metrics
 
 
@@ -172,14 +184,14 @@ def get_languages(url, token):
     urltopost = url + "/api/languages/list"
     response = requests.get(urltopost, auth=(token, ""), timeout=30)
     languages = response.json()
-    languages = languages['languages']
+    languages = languages["languages"]
     for language in languages:
-        language_lst=[]
-        language_lst.append(language['key'])
-        language_lst.append(language['name'])
+        language_lst = []
+        language_lst.append(language["key"])
+        language_lst.append(language["name"])
         data.append(language_lst)
     print()
-    print (tabulate(data, headers=["Key", "Name"]))
+    print(tabulate(data, headers=["Key", "Name"]))
     print()
     return data
 
@@ -207,14 +219,14 @@ def get_installed_plugins(url, token):
     urltopost = url + "/api/plugins/installed"
     response = requests.get(urltopost, auth=(token, ""), timeout=30)
     plugins = response.json()
-    plugins = plugins['plugins']
+    plugins = plugins["plugins"]
     for plugin in plugins:
-        plugin_lst=[]
-        plugin_lst.append(plugin['name'])
-        plugin_lst.append(plugin['description'])
-        plugin_lst.append(plugin['version'])
+        plugin_lst = []
+        plugin_lst.append(plugin["name"])
+        plugin_lst.append(plugin["description"])
+        plugin_lst.append(plugin["version"])
         data.append(plugin_lst)
     print()
-    print (tabulate(data, headers=["Name", "Description", "Version"]))
+    print(tabulate(data, headers=["Name", "Description", "Version"]))
     print()
     return data

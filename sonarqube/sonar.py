@@ -52,7 +52,7 @@ def setup_project(url, token, names):
         )
         check_flag = __check_setup(response, project_name, "components")
         if check_flag:
-            project_lst.append('Already Exists')
+            project_lst.append("Already Exists")
         else:
             urltopost = url + "/api/projects/create"
             response = requests.post(
@@ -65,17 +65,17 @@ def setup_project(url, token, names):
                 timeout=30,
             )
             if response.ok:
-                project_lst.append('Setup Successful')
+                project_lst.append("Setup Successful")
                 project_lst.append(response.reason)
             else:
-                project_lst.append('Setup Failed')
+                project_lst.append("Setup Failed")
                 error = response.json()
-                error = error['errors']
+                error = error["errors"]
                 for msg in error:
-                    project_lst.append(msg['msg'])
+                    project_lst.append(msg["msg"])
         data.append(project_lst)
     print()
-    print (tabulate(data, headers=["Project", "Status", "Response"]))
+    print(tabulate(data, headers=["Project", "Status", "Response"]))
     print()
 
 
@@ -108,18 +108,14 @@ def delete_project(url, token, names, dryrun=True):
         )
         check_flag = __check_setup(response, project_name, "components")
         if not check_flag:
-            #logging.info("%s does not exist!", project_name)
-            project_lst.append('')
-            project_lst.append('Does not Exist')
+            project_lst.append("")
+            project_lst.append("Does not Exist")
         else:
             if dryrun:
-                logging.warning("This request would delete %s", project_name)
-                logging.info(
-                    "If this was the intended action "
-                    "please re-run with dryrun set to False"
-                )
+                project_lst.append("FALSE")
+                project_lst.append("This request would delete the project")
             else:
-                project_lst.append('FALSE')
+                project_lst.append("FALSE")
                 urltopost = url + "/api/projects/delete"
                 response = requests.post(
                     urltopost
@@ -131,16 +127,141 @@ def delete_project(url, token, names, dryrun=True):
                     timeout=30,
                 )
                 if response.ok:
-                    project_lst.append('Deleted Successfully')
+                    project_lst.append("Deleted Successfully")
                     project_lst.append(response.reason)
                 else:
-                    project_lst.append('Setup Failed')
+                    project_lst.append("Delete Failed")
                     error = response.json()
-                    error = error['errors']
+                    error = error["errors"]
                     for msg in error:
-                        project_lst.append(msg['msg'])
+                        project_lst.append(msg["msg"])
         data.append(project_lst)
-    if not dryrun:
-        print()
-        print (tabulate(data, headers=["Project", "Dry Run", "Status", "Response"]))
-        print()
+    print()
+    print(tabulate(data, headers=["Project", "Dry Run", "Status", "Response"]))
+    print()
+
+
+def create_permission(url, token, name, description="", pattern=None):
+    """
+    Function to setup permission templates.
+
+    This function is intented setup a basic permission template
+
+    Parameters
+    ----------
+    arg1 : str
+        base URL of SonarQube
+    arg2 : str
+        token of account to setup the project
+    arg3 : str
+        name of permission to be setup
+    arg4 : str
+        description of the permission (optional)
+    arg5 : str
+        Project key pattern. Must be a valid Java regular expression (optional)
+
+    Returns
+    -------
+    bool
+        true or false of permissin setup
+
+    """
+    urltopost = url + "/api/permissions/search_templates"
+    permission_name = name.lower().strip()
+    response = requests.get(
+        urltopost + "?q=" + permission_name, auth=(token, ""), timeout=30
+    )
+    check_flag = __check_setup(response, permission_name, "permissionTemplates")
+    if check_flag:
+        logging.info("Permission (%s) Already Exists", permission_name)
+        return False
+    else:
+        if pattern is None:
+            urltopost = (
+                url
+                + "/api/permissions/create_template?name="
+                + permission_name
+                + "&description="
+                + description
+            )
+        else:
+            urltopost = (
+                url
+                + "/api/permissions/create_template?name="
+                + permission_name
+                + "&description="
+                + description
+                + "&projectKeyPattern="
+                + pattern
+            )
+        response = requests.post(urltopost, auth=(token, ""), timeout=30)
+        if response.ok:
+            logging.info("Permission (%s) has been setup", permission_name)
+            return True
+        else:
+            logging.error("Failed setup permission (%s)", permission_name)
+            error = response.json()
+            error = error["errors"]
+            for msg in error:
+                logging.error("%s", msg["msg"])
+            return False
+
+
+def permission_add_group(url, token, template_name, permissions, group_name):
+    """
+    Function to setup permission templates.
+
+    This function is intented setup a basic permission template
+
+    Parameters
+    ----------
+    arg1 : str
+        base URL of SonarQube
+    arg2 : str
+        token of account to setup the project
+    arg3 : str
+        name of permission to be updated
+    arg4 : str
+        comma seperated list of permissions to add
+        Possible values: admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
+    arg4 : str
+        name of group to be added to the permission
+
+    Returns
+    -------
+    bool
+        true or false of permissin setup
+
+    """
+    result = ""
+    permissionlist = permissions.split(",")
+    for permission in permissionlist:
+        urltopost = url + "/api/permissions/add_group_to_template"
+        response = requests.post(
+            urltopost
+            + "?templateName="
+            + template_name
+            + "&permission="
+            + permission.lower()
+            + "&groupName="
+            + group_name,
+            auth=(token, ""),
+            timeout=30,
+        )
+        if response.ok:
+            logging.info(
+                "%s added to template %s with permission %s",
+                group_name,
+                template_name,
+                permission,
+            )
+            if result is not False:
+                result = True
+        else:
+            logging.error("Failed add %s to permission (%s)", group_name, template_name)
+            error = response.json()
+            error = error["errors"]
+            for msg in error:
+                logging.error("%s", msg["msg"])
+                result = True
+    return result
