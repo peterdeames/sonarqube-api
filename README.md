@@ -131,10 +131,16 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Create, Delete, Rename Projects
+- [ ] Create, Delete Projects
+- [ ] Create Permission
+    - [ ] Add group to permission
 - [ ] Auditing
+    - [ ] Get SonarQube Health
+    - [ ] Ping SonarQube
+    - [ ] Get Current Version
     - [ ] LOC Count
-    - [ ] Project Count
+    - [ ] Get Languages
+    - [ ] Get Plugins
 
 See the [open issues](https://github.com/peterdeames/sonarqube-client/issues) for a full list of proposed features (and known issues).
 
