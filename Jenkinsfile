@@ -13,6 +13,10 @@ pipeline {
       steps {
         sh 'python3 -m pip install --upgrade pip'
         sh 'pip3 install -r requirements.txt'
+        script {
+          VERSION = sh (script: 'python3 setup.py —version', returnStdout: true).trim()
+          echo "Package Version: ${VERSION}"
+        }
       }
     }
     stage('Testing'){
@@ -80,6 +84,7 @@ pipeline {
     }
     stage('Build'){
       steps{
+        echo ${VERSION}
         sh 'python3 -m build'
       }
     }
