@@ -14,7 +14,7 @@ pipeline {
         sh 'python3 -m pip install --upgrade pip'
         sh 'pip3 install -r requirements.txt'
         script {
-          VERSION = sh (script: 'python3 setup.py —version', returnStdout: true).trim()
+          VERSION = sh (script: 'python3 setup.py --version', returnStdout: true).trim()
           echo "Package Version: ${VERSION}"
         }
       }
