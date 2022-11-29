@@ -1,4 +1,5 @@
 String upload = BRANCH_NAME == 'main' ? 'python3 -m twine upload --repository pypi dist/*' : 'python3 -m twine upload --repository testpypi dist/*'
+def VERSION
 
 pipeline {
   agent any
@@ -13,6 +14,9 @@ pipeline {
       steps {
         sh 'python3 -m pip install --upgrade pip'
         sh 'pip3 install -r requirements.txt'
+        script {
+          VERSION = sh (script: 'python3 setup.py --version', returnStdout: true).trim()
+        }
       }
     }
     stage('Testing'){
@@ -34,11 +38,9 @@ pipeline {
             stage('SonarQube analysis') {
               steps {
                 script {
-                  VERSION = sh (script: 'python3 setup.py --version', returnStdout: true).trim()
-                  echo "Package Version: ${VERSION}"
                   def scannerHome = tool 'SonarScanner';
                   withSonarQubeEnv('SonarCloud') {
-                    sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.organization=peterdeames -Dsonar.projectKey=peterdeames_sonarqube-client -Dsonar.sources=. -Dsonar.branch.name='${env.BRANCH_NAME}' -Dsonar.projectVersion='${BUILD_NUMBER}' -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.version=3.8 -Dsonar.scm.provider=git -Dsonar.python.coverage.reportPaths=coverage.xml -Dsonar.python.bandit.reportPaths=bandit_report.xml -Dsonar.python.pylint.reportPath=pylint-report.txt"
+                    sh "${tool("SonarScanner")}/bin/sonar-scanner -Dsonar.organization=peterdeames -Dsonar.projectKey=peterdeames_sonarqube-client -Dsonar.sources=. -Dsonar.branch.name='${env.BRANCH_NAME}' -Dsonar.projectVersion='${VERSION}' -Dsonar.host.url=https://sonarcloud.io -Dsonar.python.version=3.8 -Dsonar.scm.provider=git -Dsonar.python.coverage.reportPaths=coverage.xml -Dsonar.python.bandit.reportPaths=bandit_report.xml -Dsonar.python.pylint.reportPath=pylint-report.txt"
                   }
                 }
               }
