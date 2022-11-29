@@ -23,5 +23,9 @@ setuptools.setup(
           'Programming Language :: Python',
           'Topic :: Utilities',
           'Operating System :: OS Independent'
-          ]
+          ],
+    install_requires=[
+        'requests',
+        'tabulate'
+        ]
 )
