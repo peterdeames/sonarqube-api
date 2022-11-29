@@ -84,7 +84,7 @@ pipeline {
     }
     stage('Build'){
       steps{
-        echo ${VERSION}
+        echo '${VERSION}'
         sh 'python3 -m build'
       }
     }
