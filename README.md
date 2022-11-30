@@ -1,7 +1,5 @@
-# sonarqube-api
-
 <a name="readme-top"></a>
-
+<div align="center">
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -32,22 +30,17 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-  <a href="https://github.com/peterdeames/sonarqube-api">
-    <img src="images/logo.png" alt="Logo">
-  </a>
-
-<h3 align="center">SonarQube API</h3>
+<h2 align="center">SonarQube Client</h2>
 
   <p align="center">
     API Calls to interact with SonarQube
     <br />
-    <a href="https://github.com/peterdeames/sonarqube-api"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/peterdeames/sonarqube-client"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/peterdeames/sonarqube-api/issues">Report Bug</a>
+    <a href="https://github.com/peterdeames/sonarqube-client/issues">Report Bug</a>
     ·
-    <a href="https://github.com/peterdeames/sonarqube-api/issues">Request Feature</a>
+    <a href="https://github.com/peterdeames/sonarqube-client/issues">Request Feature</a>
   </p>
 </div>
 
@@ -84,7 +77,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+This project is collection of API calls that interact with SonarQube to help maintain daily operations such as create projects, delete projects, rename projects.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -108,15 +101,12 @@ To get a local copy up and running follow these simple example steps.
 
 This is an example of how to list things you need to use the software and how to install them.
 * python
-  ```sh
-  npm install npm@latest -g
-  ```
 
 ### Installation
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/peterdeames/sonarqube-api.git
+   git clone https://github.com/peterdeames/sonarqube-client.git
    ```
 2. Install Python packages
    ```sh
@@ -128,25 +118,31 @@ This is an example of how to list things you need to use the software and how to
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+<!-- ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Create, Delete Projects
+- [ ] Create Permission
+    - [ ] Add group to permission
+- [ ] Auditing
+    - [ ] Get SonarQube Health
+    - [ ] Ping SonarQube
+    - [ ] Get Current Version
+    - [ ] LOC Count
+    - [ ] Get Languages
+    - [ ] Get Plugins
 
-See the [open issues](https://github.com/peterdeames/sonarqube-api/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/peterdeames/sonarqube-client/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -182,7 +178,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/peterdeames/sonarqube-api](https://github.com/peterdeames/sonarqube-api)
+Project Link: [https://github.com/peterdeames/sonarqube-client](https://github.com/peterdeames/sonarqube-client)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -201,29 +197,29 @@ Project Link: [https://github.com/peterdeames/sonarqube-api](https://github.com/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/peterdeames/sonarqube-api.svg?style=for-the-badge
-[contributors-url]: https://github.com/peterdeames/sonarqube-api/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/peterdeames/sonarqube-api.svg?style=for-the-badge
-[forks-url]: https://github.com/peterdeames/sonarqube-api/network/members
-[stars-shield]: https://img.shields.io/github/stars/peterdeames/sonarqube-api.svg?style=for-the-badge
-[stars-url]: https://github.com/peterdeames/sonarqube-api/stargazers
-[issues-shield]: https://img.shields.io/github/issues/peterdeames/sonarqube-api.svg?style=for-the-badge
-[issues-url]: https://github.com/peterdeames/sonarqube-api/issues
-[license-shield]: https://img.shields.io/github/license/peterdeames/sonarqube-api.svg?style=for-the-badge
-[license-url]: https://github.com/peterdeames/sonarqube-api/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/peterdeames/sonarqube-client.svg?style=for-the-badge
+[contributors-url]: https://github.com/peterdeames/sonarqube-client/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/peterdeames/sonarqube-client.svg?style=for-the-badge
+[forks-url]: https://github.com/peterdeames/sonarqube-client/network/members
+[stars-shield]: https://img.shields.io/github/stars/peterdeames/sonarqube-client.svg?style=for-the-badge
+[stars-url]: https://github.com/peterdeames/sonarqube-client/stargazers
+[issues-shield]: https://img.shields.io/github/issues/peterdeames/sonarqube-client.svg?style=for-the-badge
+[issues-url]: https://github.com/peterdeames/sonarqube-client/issues
+[license-shield]: https://img.shields.io/github/license/peterdeames/sonarqube-client.svg?style=for-the-badge
+[license-url]: https://github.com/peterdeames/sonarqube-client/blob/master/LICENSE.txt
 [product-screenshot]: images/screenshot.png
 [Python.org]: https://img.shields.io/badge/Python-0769AD?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://www.python.org
 
-[sonar-url]: https://sonarcloud.io/summary/new_code?id=peterdeames_sonarqube-api
-[bugs-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=bugs
-[codesmells-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=code_smells
-[coverage-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=coverage
-[loc-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=ncloc
-[duplicatedlines-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=duplicated_lines_density
-[vulnerabilities-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=vulnerabilities
+[sonar-url]: https://sonarcloud.io/summary/new_code?id=peterdeames_sonarqube-client
+[bugs-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=bugs
+[codesmells-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=code_smells
+[coverage-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=coverage
+[loc-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=ncloc
+[duplicatedlines-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=duplicated_lines_density
+[vulnerabilities-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=vulnerabilities
 
-[qualitygate-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=alert_status
-[maintainability-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=sqale_rating
-[reliability-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=reliability_rating
-[security-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-api&metric=security_rating
+[qualitygate-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=alert_status
+[maintainability-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=sqale_rating
+[reliability-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=reliability_rating
+[security-badge]: https://sonarcloud.io/api/project_badges/measure?project=peterdeames_sonarqube-client&metric=security_rating
