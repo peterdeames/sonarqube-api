@@ -65,3 +65,9 @@ jobs:
           -Dsonar.projectKey=peterdeames_sonarqube-client
           -Dsonar.organization=peterdeames
           -Dsonar.branch.name=${{ vars.GITHUB_REF_NAME }}
+          -Dsonar.projectVersion=0.0.99
+          -Dsonar.python.version=${{ matrix.python-version }}
+          -Dsonar.scm.provider=git
+          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.python.bandit.reportPaths=bandit_report.xml
+          -Dsonar.python.pylint.reportPath=pylint-report.txt
