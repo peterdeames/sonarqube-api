@@ -42,13 +42,16 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Get Version
+      id: get-version
+      run:
+        echo "VERSION=python3 setup.py --version" >> $GITHUB_OUTPUT
     - name: Run Unit Test & Code Coverage
       run: |
         python -m coverage run --source=sonarqube  -m nose2 --verbosity=2
         python -m coverage xml
         python -m coverage report -m
-        echo ::set-env name=VERSION::python3 setup.py --version
-        echo ${{ env.VERSION }}
+        echo ${{ steps.get-version.outputs.VERSION }}
     # - name: Test with pytest
       # run: |
         # pytest
