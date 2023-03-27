@@ -47,6 +47,9 @@ jobs:
         python -m coverage run --source=sonarqube  -m nose2 --verbosity=2
         python -m coverage xml
         python -m coverage report -m
+        echo "$VERSION"
+      env:
+        VERSION: python3 setup.py --version
     # - name: Test with pytest
       # run: |
         # pytest
